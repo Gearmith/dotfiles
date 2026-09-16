@@ -43,6 +43,7 @@ ICON_COST=$''   # dollar
 ICON_DUR=$''    # clock-o
 ICON_RATE=$''   # bolt
 ICON_LINES=$''  # code
+ICON_AGENTS=$''  # users
 
 # Powerline rounded-pill caps, via bash's $'\uXXXX' escape (verified against
 # the raw UTF-8 bytes, not hand-computed — that's what broke the first try).
@@ -157,4 +158,24 @@ SEGMENTS2+=("$(printf '\033[38;2;%sm%s \033[0m\033[38;2;%sm+%s\033[0m \033[38;2;
 
 LINE2=$(IFS=' '; printf '%s' "${SEGMENTS2[*]}")
 
-printf '%s\n%s' "$LINE1" "$LINE2"
+# --- line 3: active subagents (best-effort — tracked via PostToolUse/
+# SubagentStop hooks in track-agents.sh, not a field Claude Code provides) --
+
+LINE3=""
+SESSION_ID=$(jqr '.session_id')
+AGENTS_FILE="$HOME/.claude/.active-agents/$SESSION_ID.json"
+if [ -n "$SESSION_ID" ] && [ -f "$AGENTS_FILE" ] && [ ! -L "$AGENTS_FILE" ]; then
+  AGENTS_COUNT=$(jq 'length' "$AGENTS_FILE" 2>/dev/null)
+  if [ -n "$AGENTS_COUNT" ] && [ "$AGENTS_COUNT" -gt 0 ]; then
+    AGENTS_DESC=$(jq -r '[.[].description] | join(" | ")' "$AGENTS_FILE" 2>/dev/null \
+      | tr -d '\000-\037' | cut -c1-90)
+    LINE3=$(printf '\033[1m\033[38;2;%sm%s %s: \033[0m\033[38;2;%sm%s\033[0m' \
+      "$SAPPHIRE" "$ICON_AGENTS" "$AGENTS_COUNT" "$OVERLAY0" "$AGENTS_DESC")
+  fi
+fi
+
+if [ -n "$LINE3" ]; then
+  printf '%s\n%s\n%s' "$LINE1" "$LINE2" "$LINE3"
+else
+  printf '%s\n%s' "$LINE1" "$LINE2"
+fi
