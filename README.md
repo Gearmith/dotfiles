@@ -9,7 +9,7 @@ theme (Catppuccin Mocha) are matched with kitty's colors for a consistent look.
 ### 1. Prerequisites (macOS, via Homebrew)
 
 ```sh
-brew install fish neovim kitty starship
+brew install fish neovim kitty starship jq
 brew install --cask font-jetbrains-mono-nerd-font
 ```
 
@@ -67,6 +67,24 @@ chsh -s $(which fish)
 `kitty.conf` already points `shell fish`, so a fresh kitty window starts in fish automatically —
 no extra setup needed there.
 
+### 8. Claude Code statusline (optional)
+
+`.config/claude/statusline.sh` renders a two-line Catppuccin Mocha statusline:
+directory/git branch/model/output style as flat badges, then context-window
+usage, session cost, duration, 5h/7d rate limits (as progress bars colored by
+severity) and lines changed. It needs `jq` (see prerequisites) and reads
+Claude Code's session JSON from stdin.
+
+`~/.claude/settings.json` is per-machine (holds local plugin/hook config), so
+it is not tracked here — wire the statusline in by hand on each device:
+
+```json
+"statusLine": {
+  "type": "command",
+  "command": "bash \"$HOME/dotfiles/.config/claude/statusline.sh\""
+}
+```
+
 ## Structure
 
 ```
@@ -77,6 +95,8 @@ no extra setup needed there.
 │   └── fish_plugins fisher plugin list
 ├── kitty/
 │   └── kitty.conf   Catppuccin Mocha theme, JetBrainsMono Nerd Font
+├── claude/
+│   └── statusline.sh  Claude Code statusline (Catppuccin Mocha)
 └── starship.toml    shared prompt config
 
 scripts/
