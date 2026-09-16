@@ -1,31 +1,76 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
 add_newline = false
 command_timeout = 700
+palette = "mocha"
 
-format = "$directory$git_branch$git_status$nodejs$php$python$character"
+# Rounded powerline segments: directory (cyan) -> git (yellow), each capped
+# with U+E0B6 / U+E0B4 half circles instead of the angled U+E0B0 arrow.
+# Each segment is a self-contained pill: it opens with  and closes with ,
+# so both edges stay rounded and no segment depends on its neighbour.
+format = """
+$directory$git_branch$git_status$nodejs$php$python$cmd_duration
+$character"""
+
+[palettes.mocha]
+crust  = "#11111B"
+text   = "#CDD6F4"
+cyan   = "#94E2D5"
+yellow = "#F9E2AF"
+green  = "#A6E3A1"
+red    = "#F38BA8"
+blue   = "#89B4FA"
+mauve  = "#CBA6F7"
 
 [directory]
+format = "[](fg:cyan)[ $path ](bg:cyan fg:crust bold)[](fg:cyan)"
 truncation_length = 3
-style = "bold"
+truncate_to_repo = true
+truncation_symbol = "…/"
+read_only = " 󰌾"
+read_only_style = "bg:cyan fg:red"
 
 [git_branch]
-symbol = " "
-style = "bold"
+symbol = ""
+format = "[ ](fg:yellow)[ $symbol $branch ](bg:yellow fg:crust bold)"
 
+# Counts make the status readable: !2 means two modified files, not "some".
 [git_status]
-style = "bold"
+format = "[($all_status$ahead_behind)](bg:yellow fg:crust bold)[ ](fg:yellow)"
+conflicted = "=${count} "
+ahead = "⇡${count} "
+behind = "⇣${count} "
+diverged = "⇕⇡${ahead_count}⇣${behind_count} "
+untracked = "?${count} "
+stashed = "$${count} "
+modified = "!${count} "
+staged = "+${count} "
+renamed = "»${count} "
+deleted = "✘${count} "
+
+
 
 [nodejs]
-symbol = " "
-style = "bold"
+symbol = ""
+format = "[$symbol $version ]($style)"
+style = "fg:green"
 
 [php]
-symbol = " "
-style = "bold"
+symbol = ""
+format = "[$symbol $version ]($style)"
+style = "fg:mauve"
 
 [python]
-symbol = " "
-style = "bold"
+symbol = ""
+format = "[$symbol $version ]($style)"
+style = "fg:yellow"
+
+[cmd_duration]
+min_time = 2000
+format = "[󰔟 $duration ]($style)"
+style = "fg:yellow"
 
 [character]
-success_symbol = "[❯](bold)"
-error_symbol = "[❯](bold)"
+success_symbol = "[❯](bold blue)"
+error_symbol = "[❯](bold red)"
+vimcmd_symbol = "[❮](bold yellow)"
