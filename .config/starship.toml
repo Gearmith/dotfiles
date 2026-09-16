@@ -1,0 +1,31 @@
+add_newline = false
+command_timeout = 700
+
+format = "$directory$git_branch$git_status$nodejs$php$python$character"
+
+[directory]
+truncation_length = 3
+style = "bold"
+
+[git_branch]
+symbol = " "
+style = "bold"
+
+[git_status]
+style = "bold"
+
+[nodejs]
+symbol = " "
+style = "bold"
+
+[php]
+symbol = " "
+style = "bold"
+
+[python]
+symbol = " "
+style = "bold"
+
+[character]
+success_symbol = "[❯](bold)"
+error_symbol = "[❯](bold)"
