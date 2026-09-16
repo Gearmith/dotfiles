@@ -41,14 +41,28 @@ fisher install jorgebucaran/fisher
 fisher update
 ```
 
-### 5. Set fish as your default shell
+### 5. (GNOME only) Enable window blur
+
+kitty's `background_blur` needs a compositor that implements a blur protocol
+(macOS, KWin). GNOME's Mutter does not, so on GNOME the blur comes from the
+[Blur my Shell](https://extensions.gnome.org/extension/3193/blur-my-shell/)
+extension:
+
+```sh
+./scripts/setup-gnome-blur.sh
+```
+
+The script enables the extension and points its "applications" pipeline at
+kitty. It is idempotent and exits quietly outside GNOME.
+
+### 6. Set fish as your default shell
 
 ```sh
 echo $(which fish) | sudo tee -a /etc/shells
 chsh -s $(which fish)
 ```
 
-### 6. Open kitty
+### 7. Open kitty
 
 `kitty.conf` already points `shell fish`, so a fresh kitty window starts in fish automatically —
 no extra setup needed there.
@@ -64,4 +78,19 @@ no extra setup needed there.
 ├── kitty/
 │   └── kitty.conf   Catppuccin Mocha theme, JetBrainsMono Nerd Font
 └── starship.toml    shared prompt config
+
+scripts/
+└── setup-gnome-blur.sh   GNOME-only: window blur for kitty
+```
+
+## Machine-local overrides
+
+`kitty.conf` ends with `globinclude local.conf`, so anything host-specific goes
+in `.config/kitty/local.conf` (gitignored) instead of the tracked config. That
+is where an absolute `shell` path or a per-machine font belongs:
+
+```conf
+shell /home/linuxbrew/.linuxbrew/bin/fish
+font_family SFMono Nerd Font Mono
+font_size   11.0
 ```
