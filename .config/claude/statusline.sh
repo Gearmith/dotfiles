@@ -10,9 +10,9 @@
 # Claude Code writes the session JSON to stdin and reads stdout back.
 # Requires jq (brew install jq / apt install jq).
 #
-# Uses plain Unicode block glyphs (█ ░), not Nerd Font powerline glyphs —
-# those render as blank/tofu in non-Nerd-Font terminals, which is what
-# produced the "rounding doesn't work" look in a plain badge run.
+# Bars use plain Unicode block glyphs (█ ░); badges use Nerd Font (Font
+# Awesome subset) icons — this pairing assumes a Nerd Font terminal
+# (e.g. kitty + JetBrainsMono Nerd Font, per this dotfiles repo).
 
 command -v jq >/dev/null 2>&1 || { printf 'statusline: jq not found'; exit 0; }
 
@@ -31,11 +31,30 @@ PEACH="250;179;135"
 SAPPHIRE="116;199;236"
 LAVENDER="180;190;254"
 
-# One flat badge: dark text on a bright fill. No caps/glyphs — just a
-# solid-colored block, so segments stay legible with any font.
+# Nerd Font (Font Awesome subset) icons, built via bash's $'\uXXXX' escape —
+# not hand-computed UTF-8 bytes, which is what corrupted an earlier attempt.
+ICON_DIR=$''    # folder
+ICON_GIT=$''    # code-fork
+ICON_MODEL=$''  # cogs
+ICON_STYLE=$''  # paint-brush
+ICON_VIM=$''    # keyboard
+ICON_CTX=$''    # tachometer
+ICON_COST=$''   # dollar
+ICON_DUR=$''    # clock-o
+ICON_RATE=$''   # bolt
+ICON_LINES=$''  # code
+
+# Powerline rounded-pill caps, via bash's $'\uXXXX' escape (verified against
+# the raw UTF-8 bytes, not hand-computed — that's what broke the first try).
+CAP_L=$''
+CAP_R=$''
+
+# One rounded pill: half-circle caps (fg = fill color, printed on the
+# terminal's default background) around a bright-filled, dark-text segment.
 badge() {
   local bg="$1" text="$2"
-  printf '\033[1m\033[48;2;%sm\033[38;2;%sm %s \033[0m' "$bg" "$CRUST" "$text"
+  printf '\033[38;2;%sm%s\033[0m\033[1m\033[48;2;%sm\033[38;2;%sm %s \033[0m\033[38;2;%sm%s\033[0m' \
+    "$bg" "$CAP_L" "$bg" "$CRUST" "$text" "$bg" "$CAP_R"
 }
 
 # 8-cell bar of solid/empty Unicode blocks (U+2588 / U+2591) — filled cells
@@ -90,20 +109,20 @@ SEVEN_D=$(jqr '.rate_limits.seven_day.used_percentage')
 
 BASENAME="${DIR##*/}"
 [ "$DIR" = "$HOME" ] && BASENAME="~"
-SEGMENTS1=("$(badge "$CYAN" "$BASENAME")")
+SEGMENTS1=("$(badge "$CYAN" "$ICON_DIR $BASENAME")")
 
 if git -C "$DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   BRANCH=$(git -C "$DIR" branch --show-current 2>/dev/null)
   if [ -n "$BRANCH" ]; then
     DIRTY=$(git -C "$DIR" status --porcelain 2>/dev/null | wc -l | tr -d ' ')
     [ "$DIRTY" -gt 0 ] && BRANCH="$BRANCH *$DIRTY"
-    SEGMENTS1+=("$(badge "$YELLOW" "$BRANCH")")
+    SEGMENTS1+=("$(badge "$YELLOW" "$ICON_GIT $BRANCH")")
   fi
 fi
 
-SEGMENTS1+=("$(badge "$MAUVE" "$MODEL")")
-[ -n "$STYLE" ] && SEGMENTS1+=("$(badge "$LAVENDER" "$STYLE")")
-[ -n "$VIM_MODE" ] && SEGMENTS1+=("$(badge "$SAPPHIRE" "$VIM_MODE")")
+SEGMENTS1+=("$(badge "$MAUVE" "$ICON_MODEL $MODEL")")
+[ -n "$STYLE" ] && SEGMENTS1+=("$(badge "$LAVENDER" "$ICON_STYLE $STYLE")")
+[ -n "$VIM_MODE" ] && SEGMENTS1+=("$(badge "$SAPPHIRE" "$ICON_VIM $VIM_MODE")")
 
 LINE1=$(IFS=' '; printf '%s' "${SEGMENTS1[*]}")
 
@@ -111,29 +130,30 @@ LINE1=$(IFS=' '; printf '%s' "${SEGMENTS1[*]}")
 
 if [ -n "$CTX_PCT" ]; then
   CTX_INT=${CTX_PCT%.*}
-  SEGMENTS2=("$(seg_bar "$CTX_INT" "ctx" "$(severity_color "$CTX_INT")")")
+  SEGMENTS2=("$(seg_bar "$CTX_INT" "$ICON_CTX ctx" "$(severity_color "$CTX_INT")")")
 else
-  SEGMENTS2=("$(printf '\033[1m\033[38;2;%sm%s\033[0m' "$OVERLAY0" "ctx n/a")")
+  SEGMENTS2=("$(printf '\033[1m\033[38;2;%sm%s\033[0m' "$OVERLAY0" "$ICON_CTX ctx n/a")")
 fi
 
 COST_FMT=$(printf '%.3f' "$COST")
-SEGMENTS2+=("$(badge "$PEACH" "\$$COST_FMT")")
+SEGMENTS2+=("$(badge "$PEACH" "$ICON_COST \$$COST_FMT")")
 
 DUR_S=$(( ${DUR_MS%.*} / 1000 ))
 H=$(( DUR_S / 3600 )); M=$(( (DUR_S % 3600) / 60 )); S=$(( DUR_S % 60 ))
 if [ "$H" -gt 0 ]; then DUR_FMT=$(printf '%dh%02dm' "$H" "$M"); else DUR_FMT=$(printf '%dm%02ds' "$M" "$S"); fi
-SEGMENTS2+=("$(badge "$BLUE" "$DUR_FMT")")
+SEGMENTS2+=("$(badge "$BLUE" "$ICON_DUR $DUR_FMT")")
 
 if [ -n "$FIVE_H" ]; then
   FIVE_H_INT=${FIVE_H%.*}
-  SEGMENTS2+=("$(seg_bar "$FIVE_H_INT" "5h" "$(severity_color "$FIVE_H_INT")")")
+  SEGMENTS2+=("$(seg_bar "$FIVE_H_INT" "$ICON_RATE 5h" "$(severity_color "$FIVE_H_INT")")")
 fi
 if [ -n "$SEVEN_D" ]; then
   SEVEN_D_INT=${SEVEN_D%.*}
-  SEGMENTS2+=("$(seg_bar "$SEVEN_D_INT" "7d" "$(severity_color "$SEVEN_D_INT")")")
+  SEGMENTS2+=("$(seg_bar "$SEVEN_D_INT" "$ICON_RATE 7d" "$(severity_color "$SEVEN_D_INT")")")
 fi
 
-SEGMENTS2+=("$(printf '\033[38;2;%sm+%s\033[0m \033[38;2;%sm-%s\033[0m' "$GREEN" "$ADDED" "$RED" "$REMOVED")")
+SEGMENTS2+=("$(printf '\033[38;2;%sm%s \033[0m\033[38;2;%sm+%s\033[0m \033[38;2;%sm-%s\033[0m' \
+  "$OVERLAY0" "$ICON_LINES" "$GREEN" "$ADDED" "$RED" "$REMOVED")")
 
 LINE2=$(IFS=' '; printf '%s' "${SEGMENTS2[*]}")
 
