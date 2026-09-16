@@ -1,1 +1,10 @@
 .DS_Store
+
+# Machine-local kitty overrides (absolute shell path, per-host font)
+.config/kitty/local.conf
+
+# Written by fisher when it installs the plugins listed in fish_plugins
+.config/fish/completions/
+.config/fish/conf.d/
+.config/fish/functions/
+.config/fish/fish_variables
