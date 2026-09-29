@@ -28,6 +28,8 @@ for dir in nvim fish kitty; do
   ln -s ~/dotfiles/.config/$dir ~/.config/$dir
 done
 ln -sf ~/dotfiles/.config/starship.toml ~/.config/starship.toml
+mkdir -p ~/.config/herdr
+ln -sf ~/dotfiles/.config/herdr/config.toml ~/.config/herdr/config.toml
 ```
 
 ### 4. Install fish plugins
@@ -109,6 +111,12 @@ it is not tracked here — wire these in by hand on each device:
 these matcher entries alongside the existing ones rather than replacing the
 whole block.
 
+### 9. herdr keybindings (optional)
+
+`.config/herdr/config.toml` keeps the default prefix (`ctrl+b`). Herdr's
+which-key equivalent is built in: press `prefix+?` for a live panel of every
+active binding, no extra config needed.
+
 ## Structure
 
 ```
@@ -123,6 +131,8 @@ whole block.
 │   ├── statusline.sh      Claude Code statusline (Catppuccin Mocha)
 │   └── hooks/
 │       └── track-agents.sh  tracks active subagents for the statusline's 3rd line
+├── herdr/
+│   └── config.toml  terminal workspace manager (default prefix, tokyo-night theme)
 └── starship.toml    shared prompt config
 
 scripts/
