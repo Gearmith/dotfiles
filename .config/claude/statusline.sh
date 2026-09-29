@@ -19,7 +19,6 @@ command -v jq >/dev/null 2>&1 || { printf 'statusline: jq not found'; exit 0; }
 IN=$(cat)
 
 # Catppuccin Mocha palette (24-bit "R;G;B" triplets).
-CRUST="17;17;27"
 OVERLAY0="108;112;134"
 CYAN="148;226;213"
 YELLOW="249;226;175"
@@ -45,17 +44,10 @@ ICON_RATE=$''   # bolt
 ICON_LINES=$''  # code
 ICON_AGENTS=$''  # users
 
-# Powerline rounded-pill caps, via bash's $'\uXXXX' escape (verified against
-# the raw UTF-8 bytes, not hand-computed — that's what broke the first try).
-CAP_L=$''
-CAP_R=$''
-
-# One rounded pill: half-circle caps (fg = fill color, printed on the
-# terminal's default background) around a bright-filled, dark-text segment.
+# Flat badge: no background, no caps — bold text in the accent color.
 badge() {
-  local bg="$1" text="$2"
-  printf '\033[38;2;%sm%s\033[0m\033[1m\033[48;2;%sm\033[38;2;%sm %s \033[0m\033[38;2;%sm%s\033[0m' \
-    "$bg" "$CAP_L" "$bg" "$CRUST" "$text" "$bg" "$CAP_R"
+  local fg="$1" text="$2"
+  printf '\033[1m\033[38;2;%sm%s\033[0m' "$fg" "$text"
 }
 
 # 8-cell bar of solid/empty Unicode blocks (U+2588 / U+2591) — filled cells
@@ -81,6 +73,16 @@ seg_bar() {
   local pct="$1" label="$2" fg="$3"
   printf '\033[1m\033[38;2;%sm%s \033[0m%s \033[1m\033[38;2;%sm%s%%\033[0m' \
     "$fg" "$label" "$(bar "$pct" "$fg")" "$fg" "$pct"
+}
+
+# Join segments with a dim " │ " separator. IFS only takes one character,
+# so the join is done by hand.
+join_segments() {
+  local sep out="$1"
+  sep=$(printf ' \033[38;2;%sm│\033[0m ' "$OVERLAY0")
+  shift
+  for seg in "$@"; do out+="$sep$seg"; done
+  printf '%s' "$out"
 }
 
 severity_color() {
@@ -125,7 +127,7 @@ SEGMENTS1+=("$(badge "$MAUVE" "$ICON_MODEL $MODEL")")
 [ -n "$STYLE" ] && SEGMENTS1+=("$(badge "$LAVENDER" "$ICON_STYLE $STYLE")")
 [ -n "$VIM_MODE" ] && SEGMENTS1+=("$(badge "$SAPPHIRE" "$ICON_VIM $VIM_MODE")")
 
-LINE1=$(IFS=' '; printf '%s' "${SEGMENTS1[*]}")
+LINE1=$(join_segments "${SEGMENTS1[@]}")
 
 # --- line 2: metrics for analysis ------------------------------------------
 
@@ -156,7 +158,7 @@ fi
 SEGMENTS2+=("$(printf '\033[38;2;%sm%s \033[0m\033[38;2;%sm+%s\033[0m \033[38;2;%sm-%s\033[0m' \
   "$OVERLAY0" "$ICON_LINES" "$GREEN" "$ADDED" "$RED" "$REMOVED")")
 
-LINE2=$(IFS=' '; printf '%s' "${SEGMENTS2[*]}")
+LINE2=$(join_segments "${SEGMENTS2[@]}")
 
 # --- line 3: active subagents (best-effort — tracked via PostToolUse/
 # SubagentStop hooks in track-agents.sh, not a field Claude Code provides) --
