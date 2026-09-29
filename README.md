@@ -74,42 +74,17 @@ no extra setup needed there.
 `.config/claude/statusline.sh` renders a Catppuccin Mocha statusline:
 directory/git branch/model/output style as flat badges, then context-window
 usage, session cost, duration, 5h/7d rate limits (as progress bars colored by
-severity) and lines changed. A 3rd line lists active subagents (count +
-description), fed by `.config/claude/hooks/track-agents.sh` — Claude Code's
-statusline JSON has no field for that, so it's tracked separately via
-`PostToolUse`/`SubagentStop`/`SessionStart` hooks writing to
-`~/.claude/.active-agents/<session_id>.json`. Needs `jq` (see prerequisites).
+severity) and lines changed. Needs `jq` (see prerequisites).
 
 `~/.claude/settings.json` is per-machine (holds local plugin/hook config), so
-it is not tracked here — wire these in by hand on each device:
+it is not tracked here — wire this in by hand on each device:
 
 ```json
 "statusLine": {
   "type": "command",
   "command": "bash \"$HOME/dotfiles/.config/claude/statusline.sh\""
-},
-"hooks": {
-  "PostToolUse": [
-    { "matcher": "Agent", "hooks": [
-      { "type": "command", "command": "bash \"$HOME/dotfiles/.config/claude/hooks/track-agents.sh\" start" }
-    ]}
-  ],
-  "SubagentStop": [
-    { "matcher": "", "hooks": [
-      { "type": "command", "command": "bash \"$HOME/dotfiles/.config/claude/hooks/track-agents.sh\" stop" }
-    ]}
-  ],
-  "SessionStart": [
-    { "matcher": "startup|resume|clear|compact", "hooks": [
-      { "type": "command", "command": "bash \"$HOME/dotfiles/.config/claude/hooks/track-agents.sh\" reset" }
-    ]}
-  ]
 }
 ```
-
-`hooks` merges with whatever hooks already exist in `settings.json` — add
-these matcher entries alongside the existing ones rather than replacing the
-whole block.
 
 ### 9. herdr keybindings (optional)
 
@@ -128,9 +103,7 @@ active binding, no extra config needed.
 ├── kitty/
 │   └── kitty.conf   Catppuccin Mocha theme, JetBrainsMono Nerd Font
 ├── claude/
-│   ├── statusline.sh      Claude Code statusline (Catppuccin Mocha)
-│   └── hooks/
-│       └── track-agents.sh  tracks active subagents for the statusline's 3rd line
+│   └── statusline.sh  Claude Code statusline (Catppuccin Mocha)
 ├── herdr/
 │   └── config.toml  terminal workspace manager (default prefix, tokyo-night theme)
 └── starship.toml    shared prompt config
