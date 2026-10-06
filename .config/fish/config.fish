@@ -23,7 +23,7 @@ test -f $HOME/.config/fish/secrets.fish; and source $HOME/.config/fish/secrets.f
 set -gx NVM_DIR $HOME/.nvm
 
 # ── Pager / bat ────────────────────────────────────────────────────────
-set -gx BAT_THEME Dracula
+set -gx BAT_THEME gruvbox-dark
 set -gx MANPAGER "sh -c 'col -bx | bat -l man -p'"
 set -gx MANROFFOPT -c
 

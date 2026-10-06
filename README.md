@@ -2,7 +2,7 @@
 
 Personal configs for Neovim ([LazyVim](https://www.lazyvim.org/)), [fish](https://fishshell.com/),
 [kitty](https://sw.kovidgoyal.net/kitty/) and [starship](https://starship.rs/). Both fish and Neovim's
-theme (Dracula) are matched with kitty's colors for a consistent look.
+theme (Gruvbox Dark) are matched with kitty's colors for a consistent look.
 
 ## Install
 
@@ -71,7 +71,7 @@ no extra setup needed there.
 
 ### 8. Claude Code statusline (optional)
 
-`.config/claude/statusline.sh` renders a Dracula statusline:
+`.config/claude/statusline.sh` renders a Gruvbox Dark statusline:
 directory/git branch/model/output style as flat badges, then context-window
 usage, session cost, duration, 5h/7d rate limits (as progress bars colored by
 severity) and lines changed. Needs `jq` (see prerequisites).
@@ -96,16 +96,16 @@ active binding, no extra config needed.
 
 ```
 .config/
-├── nvim/            LazyVim config (Dracula, transparent background)
+├── nvim/            LazyVim config (Gruvbox, transparent background)
 ├── fish/
 │   ├── config.fish  aliases, git abbreviations, PATH, starship init
 │   └── fish_plugins fisher plugin list
 ├── kitty/
-│   └── kitty.conf   Dracula theme, JetBrainsMono Nerd Font
+│   └── kitty.conf   Gruvbox Dark theme, JetBrainsMono Nerd Font
 ├── claude/
-│   └── statusline.sh  Claude Code statusline (Dracula)
+│   └── statusline.sh  Claude Code statusline (Gruvbox Dark)
 ├── herdr/
-│   └── config.toml  terminal workspace manager (default prefix, dracula theme)
+│   └── config.toml  terminal workspace manager (default prefix, gruvbox theme)
 └── starship.toml    shared prompt config
 
 scripts/

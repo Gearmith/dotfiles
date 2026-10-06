@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Claude Code statusline — Dracula, flat badges with progress bars.
+# Claude Code statusline — Gruvbox Dark, flat badges with progress bars.
 #
 # Wire up in ~/.claude/settings.json:
 #   "statusLine": {
@@ -18,17 +18,17 @@ command -v jq >/dev/null 2>&1 || { printf 'statusline: jq not found'; exit 0; }
 
 IN=$(cat)
 
-# Dracula palette (24-bit "R;G;B" triplets).
-OVERLAY0="98;114;164"
-CYAN="139;233;253"
-YELLOW="241;250;140"
-GREEN="80;250;123"
-RED="255;85;85"
-BLUE="189;147;249"
-MAUVE="255;121;198"
-PEACH="255;184;108"
-SAPPHIRE="139;233;253"
-LAVENDER="214;172;255"
+# Gruvbox Dark palette (24-bit "R;G;B" triplets).
+OVERLAY0="146;131;116"
+CYAN="142;192;124"
+YELLOW="250;189;47"
+GREEN="184;187;38"
+RED="251;73;52"
+BLUE="131;165;152"
+MAUVE="211;134;155"
+PEACH="254;128;25"
+SAPPHIRE="142;192;124"
+LAVENDER="177;98;134"
 
 # Nerd Font (Font Awesome subset) icons, built via bash's $'\uXXXX' escape —
 # not hand-computed UTF-8 bytes, which is what corrupted an earlier attempt.

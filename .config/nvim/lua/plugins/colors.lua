@@ -1,28 +1,28 @@
 return {
-  -- Dracula with a transparent background
+  -- Gruvbox (classic dark, medium contrast) with a transparent background
   {
-    "Mofiqul/dracula.nvim",
+    "ellisonleao/gruvbox.nvim",
     priority = 1000,
     lazy = false,
     opts = {
-      transparent_bg = true,
-      italic_comment = true,
-      show_end_of_buffer = false,
+      contrast = "", -- "" = medium (default)
+      transparent_mode = true,
       overrides = {
         NormalFloat = { bg = "NONE" },
         FloatBorder = { bg = "NONE" },
+        SignColumn = { bg = "NONE" },
       },
     },
     config = function(_, opts)
-      require("dracula").setup(opts)
-      vim.cmd.colorscheme("dracula")
+      require("gruvbox").setup(opts)
+      vim.cmd.colorscheme("gruvbox")
     end,
   },
 
-  -- Make LazyVim use Dracula instead of tokyonight
+  -- Make LazyVim use Gruvbox instead of tokyonight
   {
     "LazyVim/LazyVim",
-    opts = { colorscheme = "dracula" },
+    opts = { colorscheme = "gruvbox" },
   },
 
   -- Disable catppuccin (bundled by LazyVim as an optional colorscheme)

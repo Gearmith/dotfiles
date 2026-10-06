@@ -24,7 +24,7 @@ return {
 
       local opts = {
         options = {
-          theme = "dracula-nvim",
+          theme = "gruvbox",
           globalstatus = vim.o.laststatus == 3,
           section_separators = { left = "", right = "" },
           component_separators = { left = "", right = "" },
