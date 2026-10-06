@@ -2,7 +2,7 @@
 
 add_newline = false
 command_timeout = 700
-palette = "mocha"
+palette = "dracula"
 
 # Rounded powerline segments: directory (cyan) -> git (yellow), each capped
 # with U+E0B6 / U+E0B4 half circles instead of the angled U+E0B0 arrow.
@@ -12,15 +12,15 @@ format = """
 $directory$git_branch$git_status$nodejs$php$python$cmd_duration
 $character"""
 
-[palettes.mocha]
-crust  = "#11111B"
-text   = "#CDD6F4"
-cyan   = "#94E2D5"
-yellow = "#F9E2AF"
-green  = "#A6E3A1"
-red    = "#F38BA8"
-blue   = "#89B4FA"
-mauve  = "#CBA6F7"
+[palettes.dracula]
+crust  = "#282A36"
+text   = "#F8F8F2"
+cyan   = "#8BE9FD"
+yellow = "#F1FA8C"
+green  = "#50FA7B"
+red    = "#FF5555"
+blue   = "#BD93F9"
+mauve  = "#FF79C6"
 
 [directory]
 format = "[](fg:cyan)[ $path ](bg:cyan fg:crust bold)[](fg:cyan)"

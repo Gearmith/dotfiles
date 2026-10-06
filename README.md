@@ -2,7 +2,7 @@
 
 Personal configs for Neovim ([LazyVim](https://www.lazyvim.org/)), [fish](https://fishshell.com/),
 [kitty](https://sw.kovidgoyal.net/kitty/) and [starship](https://starship.rs/). Both fish and Neovim's
-theme (Catppuccin Mocha) are matched with kitty's colors for a consistent look.
+theme (Dracula) are matched with kitty's colors for a consistent look.
 
 ## Install
 
@@ -71,7 +71,7 @@ no extra setup needed there.
 
 ### 8. Claude Code statusline (optional)
 
-`.config/claude/statusline.sh` renders a Catppuccin Mocha statusline:
+`.config/claude/statusline.sh` renders a Dracula statusline:
 directory/git branch/model/output style as flat badges, then context-window
 usage, session cost, duration, 5h/7d rate limits (as progress bars colored by
 severity) and lines changed. Needs `jq` (see prerequisites).
@@ -96,16 +96,16 @@ active binding, no extra config needed.
 
 ```
 .config/
-├── nvim/            LazyVim config (Catppuccin Mocha, transparent background)
+├── nvim/            LazyVim config (Dracula, transparent background)
 ├── fish/
 │   ├── config.fish  aliases, git abbreviations, PATH, starship init
 │   └── fish_plugins fisher plugin list
 ├── kitty/
-│   └── kitty.conf   Catppuccin Mocha theme, JetBrainsMono Nerd Font
+│   └── kitty.conf   Dracula theme, JetBrainsMono Nerd Font
 ├── claude/
-│   └── statusline.sh  Claude Code statusline (Catppuccin Mocha)
+│   └── statusline.sh  Claude Code statusline (Dracula)
 ├── herdr/
-│   └── config.toml  terminal workspace manager (default prefix, tokyo-night theme)
+│   └── config.toml  terminal workspace manager (default prefix, dracula theme)
 └── starship.toml    shared prompt config
 
 scripts/

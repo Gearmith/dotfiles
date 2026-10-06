@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Claude Code statusline — Catppuccin Mocha, flat badges with progress bars.
+# Claude Code statusline — Dracula, flat badges with progress bars.
 #
 # Wire up in ~/.claude/settings.json:
 #   "statusLine": {
@@ -18,17 +18,17 @@ command -v jq >/dev/null 2>&1 || { printf 'statusline: jq not found'; exit 0; }
 
 IN=$(cat)
 
-# Catppuccin Mocha palette (24-bit "R;G;B" triplets).
-OVERLAY0="108;112;134"
-CYAN="148;226;213"
-YELLOW="249;226;175"
-GREEN="166;227;161"
-RED="243;139;168"
-BLUE="137;180;250"
-MAUVE="203;166;247"
-PEACH="250;179;135"
-SAPPHIRE="116;199;236"
-LAVENDER="180;190;254"
+# Dracula palette (24-bit "R;G;B" triplets).
+OVERLAY0="98;114;164"
+CYAN="139;233;253"
+YELLOW="241;250;140"
+GREEN="80;250;123"
+RED="255;85;85"
+BLUE="189;147;249"
+MAUVE="255;121;198"
+PEACH="255;184;108"
+SAPPHIRE="139;233;253"
+LAVENDER="214;172;255"
 
 # Nerd Font (Font Awesome subset) icons, built via bash's $'\uXXXX' escape —
 # not hand-computed UTF-8 bytes, which is what corrupted an earlier attempt.

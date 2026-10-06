@@ -10,7 +10,7 @@ delivery = "herdr"
 enabled = false
 
 [theme]
-name = "solarized"
+name = "dracula"
 auto_switch = false
 
 [keys]

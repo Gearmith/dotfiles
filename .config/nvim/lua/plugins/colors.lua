@@ -1,52 +1,32 @@
 return {
-  -- Switch to Catppuccin Mocha — best plugin integration coverage
+  -- Dracula with a transparent background
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "Mofiqul/dracula.nvim",
     priority = 1000,
+    lazy = false,
     opts = {
-      flavour = "mocha",
-      transparent_background = true,
+      transparent_bg = true,
+      italic_comment = true,
       show_end_of_buffer = false,
-      term_colors = true,
-      dim_inactive = {
-        enabled = true,
-        shade = "dark",
-        percentage = 0.12,
-      },
-      styles = {
-        comments = { "italic" },
-        conditionals = { "italic" },
-        keywords = { "italic" },
-        functions = {},
-        variables = {},
-        strings = {},
-      },
-      integrations = {
-        blink_cmp = true,
-        bufferline = true,
-        diffview = true,
-        flash = true,
-        gitsigns = true,
-        harpoon = true,
-        indent_blankline = { enabled = true },
-        lsp_trouble = true,
-        mason = true,
-        mini = { enabled = true },
-        noice = true,
-        notify = true,
-        snacks = true,
-        telescope = { enabled = true },
-        treesitter = true,
-        treesitter_context = true,
-        which_key = true,
+      overrides = {
+        NormalFloat = { bg = "NONE" },
+        FloatBorder = { bg = "NONE" },
       },
     },
     config = function(_, opts)
-      require("catppuccin").setup(opts)
-      vim.cmd.colorscheme("catppuccin")
+      require("dracula").setup(opts)
+      vim.cmd.colorscheme("dracula")
     end,
   },
+
+  -- Make LazyVim use Dracula instead of tokyonight
+  {
+    "LazyVim/LazyVim",
+    opts = { colorscheme = "dracula" },
+  },
+
+  -- Disable catppuccin (bundled by LazyVim as an optional colorscheme)
+  { "catppuccin/nvim", name = "catppuccin", enabled = false },
 
   -- Disable kanagawa
   {
