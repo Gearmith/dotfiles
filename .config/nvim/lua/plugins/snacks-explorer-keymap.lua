@@ -119,7 +119,12 @@ return {
     indent = { enabled = true },
     input = { enabled = true },
     notifier = { enabled = true, timeout = 3000 },
-    picker = { enabled = true },
+    picker = {
+      enabled = true,
+      sources = {
+        explorer = { hidden = true, ignored = true },
+      },
+    },
     quickfile = { enabled = true },
     scope = { enabled = true },
     scroll = { enabled = true },
