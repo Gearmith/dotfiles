@@ -22,3 +22,38 @@ navigate_workspace_down = "j"
 # prefix+? opens the live keybinding panel (herdr's which-key equivalent) —
 # built in, no extra config needed.
 help = "prefix+?"
+
+[[keys.command]]
+key = "prefix+P"
+type = "plugin_action"
+command = "pet.toggle"
+description = "pet: toggle"
+
+[[keys.command]]
+key = "prefix+O"
+type = "plugin_action"
+command = "pet.settings"
+description = "pet: settings"
+
+[[keys.command]]
+key = "prefix+p"
+type = "plugin_action"
+command = "ray.plugin-manager.open"
+description = "plugins: manager"
+
+[[keys.command]]
+key = "prefix+u"
+type = "plugin_action"
+command = "usagebar.open-limits"
+description = "agents: usage limits"
+
+# Sidebar rows for the Agent Usage plugin (senna-lang/herdr-agent-usage).
+# Colors follow the Gruvbox palette: yellow for mid cache hit, red for low.
+[ui.sidebar.agents]
+row_gap = 0
+rows = [
+  ["state_icon", "$title"],
+  ["$provider", "$limit"],
+  ["$cache_high", { token = "$cache_mid", fg = "#fabd2f" }, { token = "$cache_low", fg = "#fb4934" }],
+  ["$context"],
+]
