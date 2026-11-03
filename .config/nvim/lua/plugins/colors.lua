@@ -1,28 +1,32 @@
 return {
-  -- Gruvbox (classic dark, medium contrast) with a transparent background
+  -- GitHub Dark with a transparent background
   {
-    "ellisonleao/gruvbox.nvim",
+    "projekt0n/github-nvim-theme",
+    name = "github-theme",
     priority = 1000,
     lazy = false,
     opts = {
-      contrast = "", -- "" = medium (default)
-      transparent_mode = true,
-      overrides = {
-        NormalFloat = { bg = "NONE" },
-        FloatBorder = { bg = "NONE" },
-        SignColumn = { bg = "NONE" },
+      options = {
+        transparent = true,
+      },
+      groups = {
+        github_dark = {
+          NormalFloat = { bg = "NONE" },
+          FloatBorder = { bg = "NONE" },
+          SignColumn = { bg = "NONE" },
+        },
       },
     },
     config = function(_, opts)
-      require("gruvbox").setup(opts)
-      vim.cmd.colorscheme("gruvbox")
+      require("github-theme").setup(opts)
+      vim.cmd.colorscheme("github_dark")
     end,
   },
 
-  -- Make LazyVim use Gruvbox instead of tokyonight
+  -- Make LazyVim use GitHub Dark instead of tokyonight
   {
     "LazyVim/LazyVim",
-    opts = { colorscheme = "gruvbox" },
+    opts = { colorscheme = "github_dark" },
   },
 
   -- Disable catppuccin (bundled by LazyVim as an optional colorscheme)

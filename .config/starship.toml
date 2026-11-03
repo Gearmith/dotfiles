@@ -2,7 +2,7 @@
 
 add_newline = false
 command_timeout = 700
-palette = "gruvbox"
+palette = "github_dark"
 
 # Rounded powerline segments: directory (cyan) -> git (yellow), each capped
 # with U+E0B6 / U+E0B4 half circles instead of the angled U+E0B0 arrow.
@@ -12,15 +12,15 @@ format = """
 $directory$git_branch$git_status$nodejs$php$python$cmd_duration
 $character"""
 
-[palettes.gruvbox]
-crust  = "#282828"
-text   = "#ebdbb2"
-cyan   = "#8ec07c"
-yellow = "#fabd2f"
-green  = "#b8bb26"
-red    = "#fb4934"
-blue   = "#83a598"
-mauve  = "#d3869b"
+[palettes.github_dark]
+crust  = "#0d1117"
+text   = "#c9d1d9"
+cyan   = "#39c5cf"
+yellow = "#e3b341"
+green  = "#3fb950"
+red    = "#ff7b72"
+blue   = "#58a6ff"
+mauve  = "#bc8cff"
 
 [directory]
 format = "[](fg:cyan)[ $path ](bg:cyan fg:crust bold)[](fg:cyan)"

@@ -10,8 +10,15 @@ delivery = "herdr"
 enabled = false
 
 [theme]
-name = "gruvbox"
+name = "terminal"
 auto_switch = false
+
+# The terminal theme draws the focused tab label in surface_dim (ANSI DarkGray,
+# #6e7681) on the accent (ANSI Blue, #58a6ff): 1.8:1, unreadable. The GitHub Dark
+# background raises it to 7.5:1. surface_dim also tints the unfocused scrollbar
+# track and the selection base.
+[theme.custom]
+surface_dim = "#0d1117"
 
 [keys]
 # Default prefix, unchanged. Press prefix, release, then the action key.
@@ -48,12 +55,12 @@ command = "usagebar.open-limits"
 description = "agents: usage limits"
 
 # Sidebar rows for the Agent Usage plugin (senna-lang/herdr-agent-usage).
-# Colors follow the Gruvbox palette: yellow for mid cache hit, red for low.
+# Colors follow the GitHub Dark palette: yellow for mid cache hit, red for low.
 [ui.sidebar.agents]
 row_gap = 0
 rows = [
   ["state_icon", "$title"],
   ["$provider", "$limit"],
-  ["$cache_high", { token = "$cache_mid", fg = "#fabd2f" }, { token = "$cache_low", fg = "#fb4934" }],
+  ["$cache_high", { token = "$cache_mid", fg = "#e3b341" }, { token = "$cache_low", fg = "#ff7b72" }],
   ["$context"],
 ]
